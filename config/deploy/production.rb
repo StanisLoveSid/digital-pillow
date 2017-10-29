@@ -31,9 +31,9 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-role :app, %w{deploy@46.101.164.46}}
-role :web, %w{deploy@46.101.164.46}}
-role :db, %w{deploy@46.101.164.46}}, :primary => true
+role :app, %w{deploy@46.101.164.46}
+role :web, %w{deploy@46.101.164.46}
+role :db, %w{deploy@46.101.164.46}, :primary => true
 set :branch, "production"
 set :rails_env, "production"
 set :deploy_to, "/var/www/digital-pillow_production"
