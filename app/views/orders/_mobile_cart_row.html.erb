@@ -1,0 +1,46 @@
+<div class="general-cart-item divider-lg-bottom">
+<%= link_to order_item, method: :delete, remote: true, class: "close general-cart-close" do %><span aria-hidden="true">×</span><% end %>
+<p class="general-title">
+<%= link_to book.title, book_path(book) %>	
+</p>
+<div class="general-img-wrap-table pull-left">
+<% if book.book_attachments.any? %>
+  <%= image_tag book.book_attachments.first.photo.url, class: "cart-img-shadow pull-left width-full" %>
+  <% else %> 
+<%= image_tag 'cover_default.png', class: "cart-img-shadow pull-left width-full" %>
+<% end %>
+</div>
+<table class="table">
+<tbody><tr>
+<td>
+<span class="in-grey-600">Price</span>
+</td>
+<td>
+<span class="font-16 in-gold-500"><%= number_to_grn order_item.unit_price %></span>
+</td>
+</tr>
+<tr>
+<td class="vertical-middle">
+<span class="in-grey-600">Quantity</span>
+</td>
+<td>
+<div class="input-group">
+<%= link_to( order_item_path(order_item, order_item: {quantity: order_item.quantity - 1, book_id: book.id, unit_price: order_item.unit_price}), class: 'input-link', method: :patch, remote: true) do %>
+<i class="fa fa-minus line-height-40"></i> <% end %>
+<%= oi.text_field :quantity, class: "form-control quantity-input", id: "quantity" %>
+<%= link_to( order_item_path(order_item, order_item: {quantity: (book.quantity <= order_item.quantity ? order_item.quantity : order_item.quantity + 1), book_id: book.id, unit_price: order_item.unit_price}), class: 'input-link', method: :patch, remote: true) do %>
+<i class="fa fa-plus line-height-40"></i> <% end %>
+<%= oi.hidden_field :book_id, value: book.id %>	
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<span class="in-grey-600">Subtotal</span>
+</td>
+<td>
+<span class="font-16 in-gold-500"><%= number_to_grn order_item.total_price %></span>
+</td>
+</tr>
+</tbody></table>
+</div>

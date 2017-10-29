@@ -1,0 +1,43 @@
+/ Latest compiled and minified CSS
+%link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", :integrity => "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", :rel => "stylesheet"}/
+/ Optional theme
+%link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css", :integrity => "sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp", :rel => "stylesheet"}/
+/ Latest compiled and minified JavaScript
+%script{:crossorigin => "anonymous", :integrity => "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", :src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"}
+
+%body
+  %table
+    %tr
+      %td{ colspan: "3" }= "Dear customer, #{@user.first_name}!"
+    %tr
+      %td{ align: "center", colspan: "3", style: "padding: 25px 0px; font-size: 17px; line-height: 24px; font-size: 18px; text-align: center" }
+        = link_to "Order #{@order.number}", order_url(@order.id)
+  %table{ border: "1", style: "border: 4px double black; width: 100%; text-align: center" }
+    %tr
+      %th Book
+      %th Price
+      %th Quantity
+      %th Subtotal
+    - @order_items.each do |order_item|
+      %tr
+        %td= order_item.book.title
+        %td= number_to_currency(order_item.unit_price, unit: '₴')
+        %td= order_item.quantity
+        %td= number_to_currency(order_item.total_price, unit: '₴')
+  %p
+  %table{ style: "width: 300px" }
+    %tr
+      %td Order Summary
+      %td
+    %tr
+      %td Subtotal
+      %td= number_to_currency(@order.subtotal, unit: '₴')
+    %tr
+      %td Shipping
+      %td= number_to_currency(@order.delivery.price, unit: '₴')
+    %tr
+      %td
+        %b Order Total:
+      %td
+        %b= number_to_currency(@order.subtotal, unit: '₴')
+ 

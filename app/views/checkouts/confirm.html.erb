@@ -1,0 +1,157 @@
+<ul class="steps list-inline">
+<li class="step active">
+<span class="step-number">1</span>
+<span class="step-text hidden-xs">Адреса</span>
+</li>
+<li class="step-divider"></li>
+<li class="step active">
+<span class="step-number">2</span>
+<span class="step-text hidden-xs">Доставка</span>
+</li>
+<li class="step-divider"></li>
+<li class="step active">
+<span class="step-number">3</span>
+<span class="step-text hidden-xs">Вибір оплати</span>
+</li>
+<li class="step-divider"></li>
+<li class="step active">
+<span class="step-number">4</span>
+<span class="step-text hidden-xs">Підтвердження</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">5</span>
+<span class="step-text hidden-xs">Завершено</span>
+</li>
+</ul>
+
+<div class="row mb-20">
+<div class="col-sm-3">
+<h3 class="general-subtitle"><span class="translation_missing" title="translation missing: en.billing_address">Адреса отримувача</span></h3>
+<%= link_to 'змінити', wizard_path(:address, filter: "edit"), class: 'general-edit' %>
+<p class="general-address"><%= current_order.order_billing.first_name + " " + current_order.order_billing.last_name %><br><%= current_order.order_billing.addressing %><br><%= current_order.order_billing.city %><br><%= current_order.order_billing.country %><br><%= current_order.order_billing.phone %></p>
+</div>
+<div class="col-sm-3">
+<h3 class="general-subtitle"><span class="translation_missing" title="translation missing: en.shipments">Доставка</span></h3>
+<%= link_to 'змінити', wizard_path(:delivery, filter: "edit"), class: 'general-edit' %>
+<p class="general-address"><%= number_to_grn (current_order.delivery.name == "Новая Почта" ? current_order.nova_poshta_delivery : current_order.delivery.price) %><br><%= current_order.delivery.name %></p>
+</div>
+<div class="col-sm-3">
+<h3 class="general-subtitle"><span class="translation_missing" title="translation missing: en.payment_information">Інформація об оплаті</span></h3>
+<%= link_to 'змінити', wizard_path(:payment, filter: "edit"), class: 'general-edit' %>
+
+<% if current_order.allow == '0' %>
+<p class="general-address">Буде оплачено через Приват24</p>
+<% else %>
+  <br>  <label class="font-weight-light pl-0">
+      <input class="checkbox-input" hidden="hidden" type="checkbox" checked="checked" onclick="return false;" >
+        <span class="checkbox-icon">
+    <i class="fa fa-check"></i>
+  </span>
+  Буде оплачено готівкою
+        </label>
+<% end %>
+</div>
+</div>
+
+<table class="table table-hover hidden-xs">
+<tbody><tr class="no-hover">
+<th class="col-pic pl-0">
+<span class="in-grey-600">Продукт</span>
+</th>
+<th class="col-title"></th>
+<th class="col-price">
+<span class="in-grey-600">Ціна</span>
+</th>
+<th class="col-quantity">
+<span class="in-grey-600">Кількість</span>
+</th>
+<th class="col-total">
+<span class="in-grey-600">Усього</span>
+</th>
+<th class="col-close"></th>
+</tr>
+
+  <% @order.order_items.each do |order_item| %>
+    <%= render 'orders/order', book: order_item.book, order_item: order_item, show_total: true %>
+  <% end %>
+</tbody></table>
+
+<div class="visible-xs">
+  <% @order.order_items.each do |order_item| %>
+    <%= render 'orders/mobile_order', book: order_item.book, order_item: order_item, show_total: true %>
+  <% end %>  
+</div>
+  <div class="row">
+<div class="col-sm-12">
+<div class="general-text-right">
+<p class="in-gold-500 font-18">Замовлення на суму</p>
+<table class="general-summary-table general-summary-table-right general-text-right">
+<tbody><tr>
+<td>
+<p class="font-16">Без доставки:</p>
+</td>
+<td>
+<p class="font-16"><%= number_to_grn (current_order.subtotal - current_order.delivery.price) %></p>
+</td>
+</tr>
+<tr>
+<td>
+<p class="font-16">Доставка:</p>
+</td>
+<td>
+<p class="font-16"><%= number_to_grn (current_order.delivery.name == "Новая Почта" ? current_order.nova_poshta_delivery : current_order.delivery.price) %> </p>
+</td>
+</tr>
+<tr>
+<td>
+<strong class="font-18">Усього:</strong>
+</td>
+<td>
+<strong class="font-18"><%= number_to_grn current_order.subtotal %></strong>
+</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+</div>
+
+<script>
+$(document).bind("contextmenu",function(e) {
+ e.preventDefault();
+}); 
+ $(document).keydown(function(e){
+    if(e.which === 123){
+       return false;
+    }
+}); 
+</script>
+
+<div class="text-center">
+<% if current_order.allow == '1' %>
+<%= form_for @order, url: wizard_path do |f| %>
+<%= f.hidden_field :subtotal, value: current_order.subtotal %>
+<%= f.hidden_field :user_id, value: @user.id %>
+<%= f.button "Замовити", class: "btn btn-default mb-20" %>
+<% end %>
+<% else %>
+<div id="warranty">
+<form method="POST" action="https://api.privatbank.ua/p24api/ishop", class="max-600 mb-80">
+<input type="hidden" name="amt" value="<%= current_order.subtotal %>" />
+<input type="hidden" name="ccy" value="UAH" />
+<input type="hidden" name="merchant" value="130046" />
+<input type="hidden" name="order" value="<%= current_order.id %>" />
+<input type="hidden" name="details" value="Podushka " />
+<input type="hidden" name="ext_details" value="Описание товара №..." />
+<input type="hidden" name="pay_way" value="privat24" />
+<input type="hidden" name="return_url" value="http://<%= "#{request.host}:#{request.port}" %>/checkouts/confirm" />
+<input type="hidden" name="server_url" value="http://<%= "#{request.host}:#{request.port}" %>/checkouts/payment" />
+<div class="text-center">
+<button type="submit", class='btn btn-default center-block mb-20'>Оплатити</button>
+</div>
+</form>
+ </div>
+<% end %>
+</div>
+ 

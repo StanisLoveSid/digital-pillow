@@ -1,0 +1,70 @@
+<main class="container">
+  <h1 class="general-title-margin">Оформлення замовлення</h1>
+  <ul class="steps list-inline">
+    <li class="step active">
+      <span class="step-number">1</span>
+      <span class="step-text hidden-xs">Адреса</span>
+    </li>
+    <li class="step-divider"></li>
+    <li class="step">
+      <span class="step-number">2</span>
+      <span class="step-text hidden-xs">Доставка</span>
+    </li>
+    <li class="step-divider"></li>
+    <li class="step">
+      <span class="step-number">3</span>
+      <span class="step-text hidden-xs">Вибір оплати</span>
+    </li>
+    <li class="step-divider"></li>
+    <li class="step">
+      <span class="step-number">4</span>
+      <span class="step-text hidden-xs">Підтвердження</span>
+    </li>
+    <li class="step-divider"></li>
+    <li class="step">
+      <span class="step-number">5</span>
+      <span class="step-text hidden-xs">Завершено</span>
+    </li>
+  </ul>
+
+  <%= form_for @order, url: wizard_path, method: :put, html: { class: "res-mb-100" } do |f| %>
+    <div class="row">
+      <div class="col-md-5 mb-40">
+        <div class="visible-xs visible-sm">
+          <h3 class="general-subtitle">Billing Address</h3>
+          <p class="general-info-text">all fields are required</p>
+        </div>
+<%= render partial: 'address_fields', locals: { f: f, type: :billing, order: @order, user: current_user } %>
+
+      </div>
+      </div>
+    </div>
+    <div class="general-text-align mb-60">
+      <p class="in-gold-500 font-18">Замовлення на суму</p>
+      <table class="general-summary-table">
+        <tr>
+          <td>
+            <p class="font-16">Без доставки:</p>
+          </td>
+          <td>
+            <p class="font-16">
+              <%= number_to_grn current_order.subtotal %>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong class="font-18">Усього:</strong>
+          </td>
+          <td>
+            <strong class="font-18">
+              <%= number_to_grn current_order.subtotal %>
+            </strong>
+          </td>
+        </tr>
+      </table>
+        <%= f.submit "Зберегти і продовжити", class: "btn btn-default center-block mb-20" %>
+    </div>
+  <% end %>
+</main>
+

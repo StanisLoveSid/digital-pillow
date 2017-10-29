@@ -1,0 +1,40 @@
+<div class="general-cart-item divider-lg-bottom">
+<p class="general-title">
+<%= link_to book.title, book_path(book) %>	
+</p>
+<div class="general-img-wrap-table pull-left">
+<% if book.book_attachments.any? %>
+  <%= image_tag book.book_attachments.first.photo.url, class: "cart-img-shadow pull-left width-full" %>
+  <% else %> 
+<%= image_tag 'cover_default.png', class: "cart-img-shadow pull-left width-full" %>
+<% end %>
+</div>
+<table class="table">
+<tbody><tr>
+<td>
+<span class="in-grey-600">Ціна</span>
+</td>
+<td>
+<span class="font-16 in-gold-500"><%= number_to_grn order_item.unit_price %></span>
+</td>
+</tr>
+<tr>
+<td class="vertical-middle">
+<span class="in-grey-600">Кількість</span>
+</td>
+<td>
+<div class="input-group">
+<%= order_item.quantity %>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<span class="in-grey-600">Усього</span>
+</td>
+<td>
+<span class="font-16 in-gold-500"><%= number_to_grn order_item.total_price %></span>
+</td>
+</tr>
+</tbody></table>
+</div>

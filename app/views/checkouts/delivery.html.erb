@@ -1,0 +1,161 @@
+<h1 class="general-title-margin">Оформлення замовлення</h1>
+<ul class="steps list-inline">
+<li class="step active">
+<span class="step-number">1</span>
+<span class="step-text hidden-xs">Адреса</span>
+</li>
+<li class="step-divider"></li>
+<li class="step active">
+<span class="step-number">2</span>
+<span class="step-text hidden-xs">Доставка</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">3</span>
+<span class="step-text hidden-xs">Вибір оплати</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">4</span>
+<span class="step-text hidden-xs">Підтвердження</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">5</span>
+<span class="step-text hidden-xs">Завершено</span>
+</li>
+</ul>
+
+  <h3 class="general-subtitle">
+    Вага
+  </h3>
+  <h4 class="general-subtitle">
+    <%= @order.total_weight.to_i %> кг
+  </h4>
+
+  <div class="mb-res-50">
+    <%= form_for @order, url: wizard_path, method: :put, class: 'res-mb-100' do |f| %>
+     <%= f.hidden_field :user_id, value: current_user.id %>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="col-method">
+              <span class="in-grey-600 ml-40">
+                Назва доставки
+              </span>
+            </th>
+            <th>
+              <span class="in-grey-600">
+                Кількість днів
+              </span>
+            </th>
+            <th>
+              <span class="in-grey-600">
+                Ціна доставки
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <% Delivery.all.last(3).each do |delivery| %>
+            <tr>
+              <td>
+                <div class="form-group radio mt-0 mb-0">
+                  <label class="radio-label">
+                    <%= f.radio_button :delivery_id, delivery.id, class: 'radio-input', hidden: true, id: (delivery.name == "Новая Почта" ? "watch-me" : "") %>
+                    
+                      
+                    
+                    <span class="radio-icon"></span>
+                    <span class="radio-text">
+                      <%= delivery.name %>
+                    </span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <span>
+                  <%= delivery.days %>
+                </span>
+              </td>
+              <td>
+                <span class="font-16 in-gold-500" id="<%= (delivery.name == "Новая Почта" ? "price" : "") %>">
+                  <%= number_to_grn delivery.price  %>
+                </span>
+              </td>
+            </tr>
+<% if delivery.name == "Новая Почта" %>
+            <tr id="show-me" style="display: none;">
+              <td>
+                             
+<div id="np-calc-body" class="np-w-br-0" style="background-color: rgb(241, 241, 241); min-height: 322px; width: 250px;"> <div class="np-calc-wrapper"> <div class="np-calc-logotype"></div> <div class="np-hl"></div> <span id="np-calc-title"> <span class="np-calc-title-span1">Розрахунок вартості</span> <br> <span class="np-calc-title-span2">доставки</span> </span> <div class="np-calc-list"> <div class="np-calc-field" name="dispatch" role="CitySender"> <input type="text" class="np-option-search-item np-option-search-item1" placeholder="Звідки"> <div class="np-toggle-options-list"></div> <ul class="np-options-enter-point" role="CitySender"></ul> </div> <div id="np-arrows" name=""></div> <div class="np-calc-field" name="catch" role="CityRecipient"> <input type="text" class="np-option-search-item np-option-search-item2" placeholder="Куди"> <div class="np-toggle-options-list"></div> <ul class="np-options-enter-point" role="CityRecipient"></ul> </div> <div class="np-calc-field" name="weight" role="Weight"> <input type="text" class="np-option-search-item-weight" placeholder="Вага посилки" id="total_weight"> </div> </div> <div class="np-line-background"></div> <button id="np-calc-submit" type="button" onclick="copyDiv"> <span id="np-text-button">Розрахувати</span> <div id="np-load-image"></div> </button> </div> <div id="np-cost-field"> <div class="np-cost-field-container"> <p id="np-cost-number"></p> <span id="UAH">грн</span> </div> <div class="np-cost-info-container"> <span class="np-cost-info-container-cost">Вартість доставки</span><br> <div id="np-current-city"></div> <span class="np-current-city-weight">вагою </span> <span id="np-current-weight"></span> <span>кг</span> </div> <div class="np-mini-logo"> <div class="np-line-left"></div> <div class="np-line-right"></div> </div> <a id="np-detail-cost" href="https://novaposhta.ua/delivery?utm_source=calc&amp;utm_medium=widget&amp;utm_term=calc&amp;utm_content=widget&amp;utm_campaign=NP" target="_blank"> Детальний розрахунок </a> <button type="button" class="return-button" id="np-cost-return-button">Інша посилка</button> </div> <div id="np-error-field"> <div class="np-status-logo"> <img src="https://apimgmtstorelinmtekiynqw.blob.core.windows.net/content/MediaLibrary/Widget/img/not-found.svg" alt="error icon"> </div> <div class="np-error-info-container"> <span class="np-error-info-container-span">Вибачте! З технічних причин ми не змогли розрахувати Вартість посилки</span> </div> <div class="np-mini-logo"> <div class="np-line-left"></div> <div class="np-line-right"></div> </div> <button type="button" class="return-button" id="np-error-return-button">Інша посилка</button> </div> </div>
+<link rel='stylesheet' href='https://apimgmtstorelinmtekiynqw.blob.core.windows.net/content/MediaLibrary/Widget/Calc/styles/calc.css' />
+<script type='text/javascript' id='calc' charset='utf-8' data-lang='ua' apiKey='dc7cf771e80b78fee2bd04bdfb6f4eb8' data-town='city-not-default' data-town-name='undefined' data-town-id='undefined' src='https://apimgmtstorelinmtekiynqw.blob.core.windows.net/content/MediaLibrary/Widget/Calc/dist/calc.min.js'></script>
+
+
+              </td>
+            </tr>   
+            
+            <% end %>
+            
+          <% end %>
+        </tbody>
+      </table>
+
+      <script>
+  $(document).ready(function() {
+   $('input[type="radio"]').click(function() {
+       if($(this).attr('id') == 'watch-me') {
+            $('#show-me').show();           
+       }
+
+       else {
+            $('#show-me').hide();   
+       }
+   });
+});
+</script>
+
+<script>
+setInterval(function copyDiv(){
+    var firstDivContent = document.getElementById('np-cost-number');
+    var secondDivContent = document.getElementById('price');
+    var thirdDivContent = document.getElementById('UAH');
+    secondDivContent.innerHTML = (firstDivContent.innerHTML + " "+ thirdDivContent.innerHTML);
+    $("#nova_poshta_delivery").get(0).value = firstDivContent.innerHTML;
+},0);
+</script>
+      <div class="general-text-align">
+
+      </div>
+    <div class="general-text-align mb-60">
+      <p class="in-gold-500 font-18">Замовлення на суму</p>
+      <table class="general-summary-table">
+        <tr>
+          <td>
+            <p class="font-16">Без доставки:</p>
+          </td>
+          <td>
+            <p class="font-16">
+              <%= number_to_grn current_order.subtotal %>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong class="font-18">Усього:</strong>
+          </td>
+          <td>
+            <strong class="font-18">
+              <%= number_to_grn current_order.subtotal %>
+            </strong>
+          </td>
+        </tr>
+      </table>
+        <%= f.submit "Зберегти і продовжити", class: "btn btn-default center-block mb-20" %>
+    </div>
+    <% end %>
+  </div>
+
+

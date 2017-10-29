@@ -1,0 +1,25 @@
+%main.container.general-main-wrap
+  .text-center
+    %h3.general-login-title Увійти через
+    = link_to omniauth_authorize_path(resource_name, "facebook"), class: "general-login-icon" do
+      %i.fa.fa-facebook-official
+    %p.general-login-text чи
+  = form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "general-form"}) do |f|
+    .form-group.mb-30
+      %label.control-label.font-weight-light{for: "user_email"} Пошта
+      = f.email_field :email, label: "Пошта", autofocus: true, class: "form-control", type: "email", placeholder: "Пошта"
+    .form-group.mb-30
+      %label.control-label.font-weight-light{for: "user_password"} Пароль
+      = f.password_field :password, autocomplete: "off", class: "form-control", type: "password", placeholder: "Пароль"
+      = link_to "Забули пароль?", new_password_path(resource_name), class: "help-block in-gold-500"
+    .form-group.checkbox.text-center.mb-30
+      %label.font-weight-light.pl-0
+        = f.check_box :remember_me, class: 'checkbox-input', hidden: "true"
+        %span.checkbox-icon
+          %i.fa.fa-check
+        %span.checkbox-text Запам’ятати мене
+    .text-center
+      = f.submit "Увійти", class: 'btn btn-default mb-20'
+  %p.general-sign-text.text-center
+    Немає аккаунту?
+    =link_to "Зареєструватися", new_registration_path(resource_name), class: 'in-gold-500'

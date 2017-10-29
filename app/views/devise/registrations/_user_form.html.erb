@@ -1,0 +1,86 @@
+
+ <%= link_to 'Адреса', edit_user_registration_path, class: "general-back-link" %>
+
+
+<div class="tab-content">
+<div class="row mb-60">
+<div class="col-sm-5">
+<p class="in-gold-500 font-18 mb-25">Пошта</p>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'edit_email' }) do |f| %>
+  <%= f.error_notification %>
+<div class="form-group mb-30"><label class="control-label">Пошта</label>
+<%= f.text_field :email, as: :email, class: "form-control" %>
+</div>
+
+<div class="form-group mb-30"><label class="control-label">Ім’я</label>
+<%= f.text_field :first_name, class: "form-control" %>
+</div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>
+        <%= t('waiting_email', email: resource.unconfirmed_email) %>
+      </div>
+    <% end %>
+    <% if f.object.encrypted_password.present? %>
+    <div class="form-group mb-30"><label class="control-label">Акутальний пароль</label>
+      <%= f.password_field :current_password, as: :password, autocomplete: 'off', class: "form-control" %>
+      </div>
+    <% end %>
+      <%= f.submit "Зберегти", class: 'btn btn-default mb-20' %>
+<% end %>
+</div>
+
+<div class="col-sm-5 col-sm-offset-1">
+<p class="in-gold-500 font-18 mb-25">Пароль</p>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'edit_password' }) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-group mb-30 ">
+  <label class="control-label">Актуальний пароль</label>
+<%= f.password_field :password, as: :password, autocomplete: 'off', class: "form-control" %>
+  </div>
+<div class="form-group mb-30">
+<label class="control-label">Новий пароль</label>
+    <%= f.password_field :password_confirmation, as: :password, autocomplete: 'off', class: "form-control" %>
+</div>
+<div class="form-group mb-30">
+<label class="control-label">Повторите новий пароль</label>
+   <% if f.object.encrypted_password.present? %>
+
+      <%= f.password_field :current_password, as: :password, autocomplete: 'off', class: "form-control" %>
+    <% end %>
+</div>
+<div class="general-text-align">
+<%= f.submit 'Зберегти', class: 'btn btn-default mb-20' %>
+</div>
+<% end %>
+</div>
+
+ 
+<div class="col-sm-12">
+<p class="in-gold-500 font-18 mb-25">Видалити аккаунт</p>
+<div class="general-settings-btn">
+ <%= button_to 'Будь ласка, видалите мій аккаунт', registration_path(resource_name), data: { confirm: "allah" }, method: :delete, class: 'btn btn-default mb-20', id: 'type_select', disabled: "true" %>
+</div>
+<div class="form-group">
+  <label class="font-weight-light pl-0">
+    <input class="checkbox-input" hidden="true" id="enable" type="checkbox"></input>
+    <span class="checkbox-icon">
+      <i class="fa fa-check"></i>
+    </span>
+    <span class="checkbox-text">Я розумію, що вся інформація буде утрачена</span>
+  </label>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+$(function () {
+    var $checkbox = $('[id^="enable"]'),
+        $select = $('#type_select');
+
+    $checkbox.change(function (e) {
+        $select.prop('disabled', !$checkbox.is(':checked'))
+    });
+});
+</script>

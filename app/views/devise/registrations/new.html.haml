@@ -1,0 +1,24 @@
+%main.container.general-main-wrap
+  .text-center
+    %h3.general-login-title Зареєструватися через
+    = link_to user_facebook_omniauth_authorize_path, class: "general-login-icon" do
+      %i.fa.fa-facebook-official
+    %p.general-login-text чи
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:class => "general-form"}) do |f|
+    = devise_error_messages!
+    .form-group.mb-30
+      %label.control-label.font-weight-light{for: "user_email"} Пошта
+      = f.email_field :email, autofocus: true, class: "form-control", type: "email", placeholder: "Пошта"
+    .form-group.mb-30
+      %label.control-label.font-weight-light{for: "user_password"} Пароль
+      = f.password_field :password, autocomplete: "off", class: "form-control", type: "password", placeholder: "Пароль"
+    .form-group.mb-30
+      %label.control-label.font-weight-light{for: "user_password_confirmation"} Підтвердити пароль
+      = f.password_field :password, autocomplete: "off", class: "form-control", type: "password", placeholder: "Підтвердити пароль"
+    .form-group.mb-30
+      = recaptcha_tags
+    .text-center
+      = f.submit "Зареєструватися", class: 'btn btn-default mb-20'
+  %p.general-sign-text.text-center
+    Маєте аккаунт?
+    =link_to "Увійти", new_session_path(resource_name), class: 'in-gold-500'

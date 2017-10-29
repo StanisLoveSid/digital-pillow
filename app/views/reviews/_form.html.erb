@@ -1,0 +1,37 @@
+<div id="form_id">
+<%= form_for([@book, @book.reviews.new], method: :post, html: { class: "max-600 mb-80" } ) do |review| %>
+<div class="form-group <%= 'has-error' if alert && alert.include?("rate") %>">
+<%= review.label "Рейтинг", class: "control-label input-label" %>
+   <div id="star-overall">
+    <%= review.hidden_field :rate, :id=>'hint-overall' %>
+  </div>
+            <span class="help-block">
+  <p> <%= alert["rate"][0] if alert && alert.include?("rate") %> </p>
+  </span>
+  </div>
+<div class="form-group <%= 'has-error' if alert && alert.include?("title") %>">
+<%= review.label "Назва", class: "control-label input-label" %>
+<%= review.text_field :title, value: (notice["title"] if !notice.nil?), class: "form-control" %>
+          <span class="help-block">
+  <p> <%= alert["title"][0] if alert && alert.include?("title") %> </p>
+  </span>
+</div>
+<div class="form-group <%= 'has-error' if alert && alert.include?("text_of_review") %>">
+<%= review.label "Опис", class: "control-label input-label" %>
+<%= review.text_area :text_of_review, value: (notice["text_of_review"] if !notice.nil?), class: "form-control", cols: "20", rows: "5" %>
+          <span class="help-block">
+  <p> <%= alert["text_of_review"][0] if alert && alert.include?("text_of_review") %> </p>
+  </span>
+</div>
+<%= review.submit "Додати оцінку", class: "btn btn-default center-block mb-20" %>
+<% end %>
+</div>
+
+<script>
+	$('#star-overall').raty({
+    target     : '#hint-overall',
+    targetType : 'score',
+    targetKeep : true
+});
+
+</script>

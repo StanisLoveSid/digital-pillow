@@ -1,0 +1,105 @@
+
+ <%= form_for(@book, :html => { :multipart => true }) do |book| %>
+
+
+<h3 class="general-subtitle">Новий продукт</h3>
+
+      <div class="row">
+
+    <div class="form-group">
+      <%= book.label "Опис", class: "control-label input-label"  %>
+      <%= book.text_area :description, class: "form-control", placeholder: "Опис", cols: "20", rows: "5" %>
+      </div>
+
+      <div class="row">
+       <div class="col-sm-6">
+    <div class="form-group">
+         <%= book.label "Назва", class: "control-label input-label"  %>
+         <%= book.text_field :title, class: "form-control", placeholder: "Назва" %>
+        </div>
+       </div>
+
+      <div class="row">
+       <div class="col-sm-3">
+    <div class="form-group">
+         <%= book.label "Вага", class: "control-label input-label"  %>
+         <%= book.text_field :weight, class: "form-control", placeholder: "Вага" %>
+        </div>
+       </div> 
+
+     <div class="col-sm-3">
+    <div class="form-group">
+         <%= book.label "Матеріали", class: "control-label input-label"  %>
+         <%= book.text_field :materials, class: "form-control", placeholder: "Матеріали" %>
+        </div>
+       </div>  
+
+     <div class="col-sm-3">
+    <div class="form-group">
+         <%= book.label "Рік виготовлення", class: "control-label input-label"  %>
+         <%= book.text_field :year_of_publication, class: "form-control", placeholder: "Рік виготовлення" %>
+        </div>
+       </div>                    
+
+        <div class="col-sm-3">
+    <div class="form-group">
+         <%= book.label "Кількість", class: "control-label input-label"  %>
+         <%= book.number_field :quantity, class: "form-control", placeholder: "Кількість" %>
+
+        </div>
+       </div>       
+        
+        <div class="col-sm-3">
+    <div class="form-group realitve">
+
+     <div class="field">
+       <%= book.label "Фотографії" %><br>
+       <label class="btn btn-primary">
+        Обрати фотографії
+         <span style="display:none;">
+   <%= book.fields_for :book_attachments do |b| %>
+       <%= b.file_field :photo, :multiple => true, name: "book_attachments[photo][]", id: "avatar-upload" %>
+   <% end %>
+     </span>
+   </label>
+     </div>
+     <img id="img_prev" width=300 height=300 src="#" alt="your image" class="img-thumbnail hidden"/> <br/>
+
+        </div>
+        </div>
+
+<script>
+ $(function() {
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#img_prev').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#avatar-upload").change(function(){
+    $('#img_prev').removeClass('hidden');
+    readURL(this);
+  });
+}); 
+</script>        
+
+        <div class="col-sm-3">
+    <div class="form-group realitve">
+             <%= book.label "Категорія" %><br>
+<%= book.collection_select :category_id, Category.all, :id, :name, options = {include_blank: false}, html_options = {class: "country required form-control"} %>
+        </div>
+        </div>
+
+      </div>
+  
+
+    <div class="text-center">
+      <%= book.submit 'Новий продукт', class: 'btn btn-default center-block mb-20' %>
+
+      <% end %>
+    </div>

@@ -1,0 +1,14 @@
+.text-center
+  %h1.mb-30 Забули пароль?
+  %p.general-password-text
+    Інструкція з оновлення паролю буде відправлена
+= simple_form_for(resource,
+  as: resource_name,
+  url: password_path(resource_name),
+  html: { method: :post }) do |field|
+  .form-group.mb-25
+    = field.text_field :email, autocomplete: 'true', placeholder: "Пошта",
+      label: false, class: 'form-control'
+  = field.button :submit, "Відправити інструкції на пошту", class: 'btn btn-default center-block mb-20'
+  .text-center
+    = link_to "Скасувати", :back, class: 'in-gold-500 mb-20'

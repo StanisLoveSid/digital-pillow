@@ -1,0 +1,106 @@
+  <ul class="steps list-inline">
+<li class="step done">
+<span class="step-number">1
+</span>
+<span class="step-text hidden-xs">Адреса</span>
+</li>
+<li class="step-divider"></li>
+<li class="step done">
+<span class="step-number">2
+</span>
+<span class="step-text hidden-xs">Доставка</span>
+</li>
+<li class="step-divider"></li>
+<li class="step active">
+<span class="step-number">3</span>
+<span class="step-text hidden-xs">Вибір оплати</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">4</span>
+<span class="step-text hidden-xs">Підтвердження</span>
+</li>
+<li class="step-divider"></li>
+<li class="step">
+<span class="step-number">5</span>
+<span class="step-text hidden-xs">Завершено</span>
+</li>
+</ul> 
+
+
+<div class="row mb-20">
+<div class="col-sm-3">
+<h3 class="general-subtitle"><span class="translation_missing" title="translation missing: en.billing_address">Адреса отримувача</span></h3>
+<%= link_to 'edit', wizard_path(:address, filter: "edit"), class: 'general-edit' %>
+<p class="general-address"><%= current_order.order_billing.first_name + " " + current_order.order_billing.last_name %><br><%= current_order.order_billing.addressing %><br><%= current_order.order_billing.city %><br><%= current_order.order_billing.country %><br><%= current_order.order_billing.phone %></p>
+</div>
+<div class="col-sm-3">
+<h3 class="general-subtitle"><span class="translation_missing" title="translation missing: en.shipments">Доставка</span></h3>
+<%= link_to 'edit', wizard_path(:delivery, filter: "edit"), class: 'general-edit' %>
+<p class="general-address"><%= number_to_grn (current_order.delivery.name == "Новая Почта" ? current_order.nova_poshta_delivery : current_order.delivery.price) %><br><%= current_order.delivery.name %></p>
+</div>
+
+</div>
+
+ 
+  <%= form_for @order, url: wizard_path, method: :put, class: 'max-600 mb-80' do |f| %>
+<div class="row">
+<div class="col-sm-12">
+    <label class="font-weight-light pl-0">
+      <%= f.check_box :allow,{ id: 'enable', class: 'checkbox-input', hidden: true, checked: ( @order.allow == '1' ? true : false)} %>
+        <span class="checkbox-icon">
+    <i class="fa fa-check"></i>
+  </span>
+  Оплата готівкою
+        </label>
+<div class="general-text-right">
+<p class="in-gold-500 font-18">Замовлення на суму</p>
+<table class="general-summary-table general-summary-table-right general-text-right">
+<tbody><tr>
+<td>
+<p class="font-16">Без доставки:</p>
+</td>
+<td>
+<p class="font-16"><%= number_to_grn (current_order.subtotal - current_order.delivery.price) %></p>
+</td>
+</tr>
+<tr>
+<td>
+<p class="font-16">Доставка:</p>
+</td>
+<td>
+<p class="font-16"><%= number_to_grn (current_order.delivery.name == "Новая Почта" ? current_order.nova_poshta_delivery : current_order.delivery.price) %> </p>
+</td>
+</tr>
+<tr>
+<td>
+<strong class="font-18">Усього:</strong>
+</td>
+<td>
+<strong class="font-18"><%= number_to_grn current_order.subtotal %></strong>
+</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+</div>
+
+    <div class="text-center">
+      <%= f.submit 'Зберегти і продовжити', class: 'btn btn-default center-block mb-20' %>
+
+      <% end %>
+    </div>
+
+<script>  
+$('#enable').click(function(){
+    $('#warranty').css('display', ($(this).is(':checked') ? 'none' : 'block'));
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  $("#order_credit_card_attributes_number").mask("9999 9999 9999 9999");
+  $("#order_credit_card_attributes_expiration_date").mask("99/99");
+});
+</script>

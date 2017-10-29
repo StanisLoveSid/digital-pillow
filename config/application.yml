@@ -1,0 +1,7 @@
+AWS_ACCESS_KEY_ID: "AKIAIUP75ATUM5CJMFNA"
+AWS_SECRET_ACCESS_KEY: "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"
+aws_region: "us-west-2"
+development:
+  S3_BUCKET_NAME: stasbookstore
+production:
+  S3_BUCKET_NAME: stasbookstore
