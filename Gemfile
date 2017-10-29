@@ -69,6 +69,9 @@ group :development, :test do
   gem 'email_spec'
   gem 'shoulda-matchers'
   gem 'database_cleaner'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
 end
 
 group :development do
