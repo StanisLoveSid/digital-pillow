@@ -83,6 +83,20 @@
 </p>
 <% end %>
 <% end %>
+
+<% unless @book.authors.first == nil %>
+<% @book.authors.each do |author|%>
+
+<p>
+<%= link_to({controller: 'authors', action: "destroy", book: {book_id: @book.id, id: author.id}}, data: { confirm: 'Ви дійсно хочете видалити виробника?' }, method: :delete) do %>
+<%= "#{author.name}"%> видалити
+<% end %>
+</p>
+
+<% end %>
+<% end %>
+
+
 </div>
 <% end %>
 <% end %>
@@ -165,6 +179,16 @@ function updateTextArea(source){
 <div class="clearfix">
 <p class="pull-left">Матеріали</p>
 <p class="in-grey-600 small pull-right"><%= @book.materials %></p>
+</div>
+</div>
+<div class="general-info-wrap divider-lg">
+<div class="clearfix">
+<p class="pull-left">Виробник</p>
+<p class="in-grey-600 small pull-right">
+<% @book.authors.each do |author| %>
+<%= author == @book.authors.last ? author.name : author.name + "," %>
+<% end %>
+</p>
 </div>
 </div>
 </div>
