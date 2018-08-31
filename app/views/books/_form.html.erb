@@ -43,9 +43,13 @@
 
         <div class="col-sm-3">
     <div class="form-group">
-         <%= book.label "Кількість", class: "control-label input-label"  %>
-         <%= book.number_field :quantity, class: "form-control", placeholder: "Кількість" %>
-
+        <label class="font-weight-light pl-0">
+      <%= book.check_box :available,{ class: 'checkbox-input', hidden: true} %>
+        <span class="checkbox-icon">
+    <i class="fa fa-check"></i>
+  </span>
+  У наявності?
+        </label>
         </div>
        </div>       
         

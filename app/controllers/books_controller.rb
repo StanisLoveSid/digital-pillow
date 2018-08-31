@@ -65,12 +65,13 @@ class BooksController < ApplicationController
         format.html { render action: 'new' }
       end
     end
+    @book.update(available: true) if params[:available] == '1'
   end
 
   private
 
   def book_params
-    params.require(:book).permit(:year_of_publication, :materials, :dimensions,
+    params.require(:book).permit(:year_of_publication, :available, :materials, :dimensions,
                                  :category_id, :title, :description, :price, :quantity, :id, :weight, {photos: []},
                                  book_attachments_attributes: [:id, :book_id, :photo])
   end

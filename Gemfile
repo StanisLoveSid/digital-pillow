@@ -46,6 +46,8 @@ gem 'roadie-rails', '~> 1.0'
 gem 'fog-aws'
 gem "recaptcha", require: "recaptcha/rails"
 gem 'redis'
+gem 'money'
+gem 'concurrency'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

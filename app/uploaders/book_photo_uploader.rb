@@ -4,10 +4,8 @@ class BookPhotoUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
 
-  if Rails.env.development?
+  if Rails.env.production?
     storage :file
-  else
-    storage :fog
   end
 
   # Override the directory where uploaded files will be stored.
@@ -30,9 +28,13 @@ class BookPhotoUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
 
    version :thumb do
-     process resize_to_fit: [1300, 200]
+     process resize_to_fit: [650, 100]
    end
 
+   version :thumb_main_page do
+      process resize_to_fit: [1300, 200]
+   end
+ 
    version :original do
      process resize_to_fit: [2000, 800]
    end

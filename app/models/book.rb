@@ -12,10 +12,8 @@ class Book < ApplicationRecord
   end 
 
   def state
-   if quantity > 5
+   if available == true
    "У наявності"
-   elsif quantity > 0 && quantity < 5 
-   "Закінчується"
    else
     "Немає у наявності"
    end    

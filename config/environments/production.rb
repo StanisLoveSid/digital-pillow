@@ -48,7 +48,7 @@ Rails.application.configure do
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
-
+  config.carrier_wave_storage = :file
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -76,7 +76,7 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   
-Rails.application.routes.default_url_options[:host] = 'thawing-crag-87796.herokuapp.com'
+Rails.application.routes.default_url_options[:host] = 'podushka.dp.ua'
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = false
 config.action_mailer.default :charset => "utf-8"

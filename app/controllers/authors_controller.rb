@@ -1,7 +1,8 @@
 class AuthorsController < ApplicationController
   def create
   	@book = Book.find(params[:author][:book_id])
-  	@book.authors.new authors_params
+        @author = Author.find_by(name: params[:author][:name])
+        @author == nil ? @book.authors.new(authors_params) : (@author.books << @book)  
     if @book.save 
       flash[:success] = "Назву виробника добавлено"
   	  redirect_to @book

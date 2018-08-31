@@ -11,12 +11,16 @@
   <%= image_tag @book.book_attachments.first.photo.url(:watermarked), class: "img-responsive img-shadow" %>
 </div>
 <div class="images clearfix">
+
 <% @book.book_attachments.each do |asset| %>
        <%= link_to asset.photo.url, class: :popup_link, target: :_blank do %>
          <%= image_tag asset.photo.url(:thumb), class: "width-full"  %>
        <% end %>
       
 <% end %>
+
+
+
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
@@ -69,15 +73,32 @@
 
 <%= f.hidden_field :unit_weight, value: @book.weight %>
 
+<% if user_signed_in? %>
+<% if current_user.admin? || current_user.manager? %>
+<div style="margin-top: 3%;">
+<% unless @book.prices.first == nil %>
+<% @book.prices.each do |price|%>
+<p>
+<%= link_to "#{price.size} #{price.price} видалити", price_path(price), method: :delete, data: { confirm: 'Ви дійсно хочете видалити розмір та ціну?' }  %>
+</p>
+<% end %>
+<% end %>
+</div>
+<% end %>
+<% end %>
+
 <script>
 function updateTextArea(source){
  var variable = source;
- $("#priceOrderItem").html(variable +"0 грн");
+ $("#priceOrderItem").html(variable +" грн");
+  if (variable.slice(-2) == ".0") {
+   $("#priceOrderItem").html(variable +"0 грн");
+ };
 }
 </script>
 
 <div class="col-xs-7 col-md-5">
-<%= f.submit "Купити зараз", class: "btn btn-default pull-right general-position", disabled: (@book.quantity == 0 || @book.prices.first == nil) %>
+<%= f.submit "Купити зараз", class: "btn btn-default pull-right general-position", disabled: (@book.available == false || @book.prices.first == nil) %>
 </div>
 <% end %>
 </div>
@@ -87,7 +108,7 @@ function updateTextArea(source){
     <div class="form-group">
 
     <%= form_for(@book.prices.new, url: {controller: "prices", action: "create"}) do |price| %>
-    <%= price.number_field :price, class: "form-control mb-20", placeholder: "Ціна", cols: "20", rows: "5" %>
+    <%= price.number_field :price, class: "form-control mb-20", step: 0.01, placeholder: "Ціна", cols: "20", rows: "5" %>
     <%= price.text_field :size, class: "form-control mb-20", placeholder: "Розмір", cols: "20", rows: "5" %>
     <%= price.hidden_field :book_id, value: @book.id %> 
     <%= price.submit "Додати новий розмір", class: "btn btn-primary" %>

@@ -11,9 +11,15 @@ class PricesController < ApplicationController
     end
   end
 
+  def destroy
+    @price = Price.find(params[:id])
+    @price.destroy
+    redirect_to :back, notice: "Ціна та розмір видалині успішно"
+  end
+
   private
 
   def prices_params
-  	params.require(:price).permit(:price, :size, :book_id)
+  	params.require(:price).permit(:price, :size, :book_id, :id)
   end
 end

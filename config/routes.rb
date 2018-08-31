@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root "books#index"
  
   resources :categories
-
+  get '/our_location', to: 'location#show'
   resources :books do
     resources :reviews
   end

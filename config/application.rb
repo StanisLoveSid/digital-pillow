@@ -30,6 +30,8 @@ module BookStore
   end
  
   config.active_job.queue_adapter = :sidekiq
+  config.i18n.available_locales = [:ua]
+  config.i18n.default_locale = :ua
 
   ActionMailer::Base.smtp_settings = {
    :address        => 'smtp.gmail.com',
