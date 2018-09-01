@@ -20,7 +20,7 @@
 <%= link_to( order_item_path(order_item, order_item: {quantity: order_item.quantity - 1, book_id: book.id, unit_price: order_item.unit_price}), class: 'input-link', method: :patch, remote: true) do %>
 <i class="fa fa-minus line-height-40"></i> <% end %>
 <%= oi.text_field :quantity, class: "form-control quantity-input", id: "quantity" %>
-<%= link_to( order_item_path(order_item, order_item: {quantity: (book.quantity <= order_item.quantity ? order_item.quantity : order_item.quantity + 1), book_id: book.id, unit_price: order_item.unit_price}), class: 'input-link', method: :patch, remote: true) do %>
+<%= link_to( order_item_path(order_item, order_item: {quantity: (order_item.quantity + 1), book_id: book.id, unit_price: order_item.unit_price}), class: 'input-link', method: :patch, remote: true) do %>
 <i class="fa fa-plus line-height-40"></i> <% end %>
 <%= oi.hidden_field :book_id, value: book.id %>
 

@@ -60,8 +60,9 @@ class CheckoutsController < ApplicationController
       @redirection_counter = []
       @redirection_counter << "redirected" if performed?
       @order.order_items.each do |oi| 
-        oi.book.quantity -= oi.quantity
-        oi.book.save! 
+        if oi.book.available
+          oi.book.save!
+        end 
       end
       OrderMailer.send_order(@order, current_user).deliver
       @order.complete

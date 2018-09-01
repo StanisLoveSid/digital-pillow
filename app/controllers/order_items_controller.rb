@@ -6,7 +6,7 @@ class OrderItemsController < ApplicationController
     @order = current_order
     @order_item = @order.order_items.new(order_item_params)
     @book.bestseller = true if @book.pick_times >= 4
-    if @order_item.quantity <= @book.quantity
+    if @book.available
     @book.pick_times += 1 * @order_item.quantity
     @book.save
     @order.save 

@@ -7,6 +7,6 @@ class Price < ApplicationRecord
   before_create :currency_convertion
 
   def currency_convertion
-    self[:price] *= Concurrency.convert(1, "USD", "UAH").round
+    self[:price] *= Concurrency.convert(1, "USD", "UAH").round(2)
   end
 end

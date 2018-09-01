@@ -12,7 +12,7 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for(
     :order_items,
-    reject_if: proc() { |attrs| attrs['quantity'].to_i > (Book.find(attrs["book_id"].to_i)).quantity  }
+    reject_if: proc() { |attrs| !((Book.find(attrs["book_id"].to_i)).available)  }
     )
 
   STATES = [:in_delivery, :delivered, :canceled]
@@ -54,7 +54,7 @@ class Order < ApplicationRecord
 
   def price_calc
     @price = order_items.collect { |oi| oi.quantity * oi.unit_price }.sum
-    @if_discount = coupon == '1111' ? @price/4 : @price
+    @if_discount = coupon == 'fsdfkgsk23425hd_$^@(*#&$(*KSJHFKHB@8123;' ? @price/4 : @price
   end
 
   def coupon_price
