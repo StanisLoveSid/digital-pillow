@@ -5,11 +5,11 @@ class BookMailer < ActionMailer::Base
   	@book = book
 	recipients = @users.collect(&:email).join(", ")
     attachments.inline['logo.png'] = {
-      data: File.read(Rails.root.join("public"+"#{@book.photos.first.url(:thumb)}")),
+      data: File.read(Rails.root.join("public"+"#{@book.book_attachments.first.photo.url(:thumb)}")),
       mime_type: 'image/png'
     }	
     mail(to: recipients, 
-       	 from: 'forumjankenpon@gmail.com',
-       	 subject: "New product in our store #{@book.title} ")  		
+       	 from: 'no-reply@podushka.dp.ua',
+       	 subject: "Новий товар у нашому магазині #{@book.title} ")  		
   end	
 end

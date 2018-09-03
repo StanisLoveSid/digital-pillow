@@ -78,18 +78,10 @@ Rails.application.configure do
   
 Rails.application.routes.default_url_options[:host] = 'podushka.dp.ua'
 config.action_mailer.perform_deliveries = true
-config.action_mailer.raise_delivery_errors = false
+config.action_mailer.raise_delivery_errors = true
 config.action_mailer.default :charset => "utf-8"
-
-config.action_mailer.smtp_settings = {
-  :authentication => :plain,
-  :address => "smtp.mailgun.org",
-  :port => 587,
-  :domain => "thawing-crag-87796.herokuapp.com",
-  :user_name => "postmaster@infinite-hamlet-66119.herokuapp.com",
-  :password => "1010e94e850c68fb17c481acaf9b3a01"
-}
-
+config.action_mailer.delivery_method = :sendmail
+config.action_mailer.default_options = {from: 'no-reply@podushka.dp.ua'}
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

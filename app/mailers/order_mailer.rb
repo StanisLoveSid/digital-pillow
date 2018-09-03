@@ -4,9 +4,9 @@ class OrderMailer < ActionMailer::Base
 		@order = order
 		@user = user
 		@order_items = @order.order_items
-		recipients = [@user.email, "joingamings@gmail.com"]
+		recipients = [@user.email, "kingoftextil@gmail.com"]
        	mail(to: recipients, 
-       		from: 'forumjankenpon@gmail.com',
-       		subject: "Order #{@order.number} completed")
+       		from: 'no-reply@pdushka.dp.ua',
+       		subject: "Замовлення #{@order.number} завершено")
 	end
 end
